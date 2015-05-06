@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
   devise_for :users
-  resources :links
+  resources :links do
+      member do
+        # si le memebre aime , on l'envoie à upvote et l'inverse
+        put "like", to: "links#upvote"
+        put "dislike", to: "links#downvote"
+      end
+    end
 
   root to: "links#index"
   # The priority is based upon order of creation: first created -> highest priority.

@@ -1,8 +1,10 @@
 class LinksController < ApplicationController
-  # avant de faire les defs verifier que les liens sont existants et que le client est connecter
+  # avant de faire les defs verifier que les liens sont existants 
+  # et que le client est connecter
   before_action :set_link, only: [:show, :edit, :update, :destroy]
   before_filter :authenticate_user!, :expect => [:index, :show]
   before_action :authorized_user, only: [:edit, :update, :destroy]
+
 
   def authorized_user
    @link= current_user.links.find_by(id: params[:id]) 
@@ -69,6 +71,19 @@ class LinksController < ApplicationController
     end
   end
 
+  def upvote
+    # Link est un objet
+    @link =Link.find(params[:id])
+    @link.upvote_by current_user
+    redirect_to :back
+  end
+
+  def downvote
+    @link =Link.find(params[:id])
+    @link.downvote_from current_user
+    redirect_to :back
+  end
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_link
