@@ -2,7 +2,8 @@ class LinksController < ApplicationController
   # avant de faire les defs verifier que les liens sont existants 
   # et que le client est connecter
   before_action :set_link, only: [:show, :edit, :update, :destroy]
-  before_filter :authenticate_user!, :expect => [:index, :show]
+  before_filter :authenticate_user!, :except => [:index, :show]
+  
   before_action :authorized_user, only: [:edit, :update, :destroy]
 
 
